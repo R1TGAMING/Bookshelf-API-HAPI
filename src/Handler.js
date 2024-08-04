@@ -1,13 +1,17 @@
 const {nanoid} = require("nanoid")
 
+// Untuk menampung data buku
 const receiveData = []
 
+// Membuat sebuah buku
 const CreateBooks = (request, h) => {
+  //kumpulan variable untuk dikirim ke client
   const id = nanoid()
   let finished = false
   const date = new Date().toISOString()
 
-  
+
+  // sebuah models untuk menampung data buku
   const {
     name,
     year,
@@ -19,19 +23,21 @@ const CreateBooks = (request, h) => {
     reading
   } = request.payload;
 
+  // Perkondisian jika pageCount dan readPage sama maka set nilai finished menjadi true kalau salah false
   if (pageCount === readPage) {
     finished = true
   } else {
     finished = false
   }
 
+  // Mengecek apakah client memberikan sebuah nama pada buku
   if (!name || name === undefined) {
     return h.response({
       "status": "fail",
     "message": "Gagal menambahkan buku. Mohon isi nama buku"
     }).code(400)
   } else {
-  
+   // Kalau client memberikan nama buku maka akan menambahkan data buku ke dalam array receiveData
   const books = {
     'id' : id,
     'name' : name,
@@ -48,7 +54,7 @@ const CreateBooks = (request, h) => {
   }
     receiveData.push(books)
 
-    
+    // Mengecek apakah readPage lebih besar dari pageCount
     if(readPage > pageCount) {
       return h.response({
         "status": "fail",
@@ -66,7 +72,10 @@ const CreateBooks = (request, h) => {
   }
 };
 
+// Untuk melihat buku sebuah buku
 const ViewBooks = (request, h) => {
+
+  // Membuat sebuah query bernama finished untuk melihat buku yang sudah selesai dilihat
   const finishedQuery = request.query.finished
 
   const filterFinishedData = receiveData.filter(data => {
@@ -94,7 +103,8 @@ const ViewBooks = (request, h) => {
     }
      }).code(200)
   }
-  
+
+  // Membuat sebuah query bernama reading untuk melihat buku yang sedang dibaca
   const readingQuery = request.query.reading
   
   const filterReadingData = receiveData.filter(data => {
@@ -123,7 +133,7 @@ const ViewBooks = (request, h) => {
      }).code(200)
   }
   
-  
+  // Untuk mencari sebuah buku dengan query name
   const nameQuery = request.query.name
   const findNameBooks = receiveData.find(book => book.name === nameQuery)
 
@@ -143,7 +153,7 @@ const ViewBooks = (request, h) => {
     }
   }
   
-  
+  // Untuk menampilkan semua buku
   const dataBooks = {
     "status": "success",
     "data": {
@@ -154,6 +164,7 @@ const ViewBooks = (request, h) => {
   return h.response(dataBooks).code(200);
 };
 
+// Untuk mencari sebuah buku dengan id
 const SearchBooks = (request, h) => {
   const id = request.params.id;
   const dataBooks = receiveData.find((data) => {
@@ -177,13 +188,16 @@ const SearchBooks = (request, h) => {
   
 };
 
+// Untuk mengganti buku dengan id
 const ChangeBooks = (request, h) => {
+  // Mengambil value params lalu mencari index dari data receieveData
   let finished = false
   const id = request.params.id;
   const dataBooks = receiveData.findIndex((data) => {
     return data.id === id
   });
-  
+
+  // Models untuk mengganti sebuah buku
   const {
     name,
     year,
@@ -195,18 +209,21 @@ const ChangeBooks = (request, h) => {
     reading
   } = request.payload;
 
+  // Mengecek apakah id sebuah buku ada atau tidak
   if (dataBooks === -1) {
     return h.response({
       "status": "fail",
     "message": "Gagal memperbarui buku. Id tidak ditemukan"
     }).code(404)
   } else {
+    // Jika pageCount dan readPage sama maka finished true jika salah false
     if (pageCount === readPage) {
       finished = true
     } else {
       finished = false
     }
 
+    // Jika name tidak kosong maka akan mengganti nama buku
     if (!name || name === undefined) {
       return h.response({
         "status": "fail",
@@ -227,8 +244,10 @@ const ChangeBooks = (request, h) => {
         'updatedAt' : new Date().toISOString()
       } */
 
-      receiveData[dataBooks] = {id : receiveData[dataBooks].id, name, year, author, summary, publisher, pageCount, readPage, reading}
-      
+      // Data dari receiveData akan dinggantikan dengan yang baru
+      receiveData[dataBooks] = {id : receiveData[dataBooks].id, name, year, author, summary, publisher, pageCount, readPage, finished, reading, insertedAt : receiveData[dataBooks].insertedAt, updatedAt : new Date().toISOString()}
+
+      // Mengecek apakah readPage lebih besar dari pageCount
       if(readPage > pageCount) {
       return h.response({
         "status": "fail",
@@ -245,6 +264,7 @@ const ChangeBooks = (request, h) => {
   };
 };
 
+// Untuk menghapus data sebuah buku
 const DeleteBooks = (request, h) => {
   const id = request.params.id;
   const dataBooks = receiveData.findIndex((data) => {
@@ -268,5 +288,5 @@ const DeleteBooks = (request, h) => {
 }
 
 
-
+// Mengexports function
 module.exports = {CreateBooks, ViewBooks, SearchBooks, ChangeBooks, DeleteBooks};

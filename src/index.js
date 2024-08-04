@@ -1,6 +1,7 @@
 const Hapi = require('@hapi/hapi');
 const routes = require("./Routes")
 
+// Menginitialisasi server HAPI
 const init = async () => {
   const PORT = 9000;
   

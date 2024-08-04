@@ -1,5 +1,6 @@
 const { CreateBooks, ViewBooks, SearchBooks, ChangeBooks, DeleteBooks } = require("./Handler")
 
+// Untuk menampung semua routes pada data buku
 const routes = [
   {
     method : "POST",
