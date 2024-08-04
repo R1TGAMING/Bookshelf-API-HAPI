@@ -67,14 +67,66 @@ const CreateBooks = (request, h) => {
 };
 
 const ViewBooks = (request, h) => {
-  const nameQuery = request.query.name
-  const readingQuery = request.query.reading
-  const findNameBooks = receiveData.find(book => book.name === nameQuery)
-  
-  
+  const finishedQuery = request.query.finished
 
+  const filterFinishedData = receiveData.filter(data => {
+    if (finishedQuery === '0') {
+     return data.finished === false
+    } else if (finishedQuery === '1') {
+      return data.finished === true
+    } else {
+      return true;
+    }
+  })
+
+  if (finishedQuery) {
+   if (filterFinishedData.length === 0) {
+     return h.response({
+      "status": "fail",
+    "message": "Buku tidak ditemukan"
+    }).code(404)
+   }
+    
+     return h.response({
+       "status": "success",
+    "data": {
+        "books": filterFinishedData
+    }
+     }).code(200)
+  }
+  
+  const readingQuery = request.query.reading
+  
+  const filterReadingData = receiveData.filter(data => {
+    if (readingQuery === '0') {
+     return data.reading === false
+    } else if (readingQuery === '1') {
+      return data.reading === true
+    } else {
+      return true;
+    }
+  })
+  
+  if (readingQuery) {
+   if (filterReadingData.length === 0) {
+     return h.response({
+      "status": "fail",
+    "message": "Buku tidak ditemukan"
+    }).code(404)
+   }
+    
+     return h.response({
+       "status": "success",
+    "data": {
+        "books": filterReadingData
+    }
+     }).code(200)
+  }
   
   
+  const nameQuery = request.query.name
+  const findNameBooks = receiveData.find(book => book.name === nameQuery)
+
   if (nameQuery) {
     if(findNameBooks == undefined) {
       return h.response({
@@ -87,7 +139,7 @@ const ViewBooks = (request, h) => {
         "data" : {
           "books" : findNameBooks
         }
-      })
+      }).code(200)
     }
   }
   
