@@ -1,4 +1,4 @@
-entrypoint = "src/index.js"
+entrypoint = "src/server.js"
 modules = ["nodejs-20"]
 hidden = [".config", "package-lock.json"]
 
