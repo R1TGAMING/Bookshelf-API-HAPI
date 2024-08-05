@@ -52,7 +52,7 @@ const CreateBooks = (request, h) => {
     'insertedAt' : date,
     'updatedAt' : date
   }
-    receiveData.push(books)
+    
 
     // Mengecek apakah readPage lebih besar dari pageCount
     if(readPage > pageCount) {
@@ -60,8 +60,10 @@ const CreateBooks = (request, h) => {
         "status": "fail",
     "message": "Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount"
       }).code(400)
-    }
-
+    } else {
+      
+    receiveData.push(books)
+      
     return h.response({
       "status": "success",
     "message": "Buku berhasil ditambahkan",
@@ -69,6 +71,8 @@ const CreateBooks = (request, h) => {
         "bookId": id
     }
     }).code(201)
+    
+  }
   }
 };
 
@@ -137,6 +141,7 @@ const ViewBooks = (request, h) => {
   const nameQuery = request.query.name
   const findNameBooks = receiveData.find(book => book.name === nameQuery)
 
+  
   if (nameQuery) {
     if(findNameBooks == undefined) {
       return h.response({
@@ -152,12 +157,13 @@ const ViewBooks = (request, h) => {
       }).code(200)
     }
   }
-  
+
+  const getAllBooks = receiveData.map(({id, name, publisher}) => ({id, name, publisher}))
   // Untuk menampilkan semua buku
   const dataBooks = {
     "status": "success",
     "data": {
-        "books": receiveData
+        "books": getAllBooks
       }
   }; 
   
