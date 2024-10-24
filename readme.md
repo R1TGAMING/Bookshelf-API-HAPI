@@ -1,7 +1,36 @@
-*BOOKSHELF API WITH HAPI*
 
-***NOTES***
 
-TOLONG GUNAKAN INI UNTUK MEDIA PEMBELAJARAN DAN BIJAK. 
+<h4 align="center">Project submission dicoding tingkat dasar.</h4>
 
-KODE INI BERISI MENGENAI BOOKSHELF API SUBMISSION DARI DICODING TOLONG JANGAN SAMPAI MEMPLAGIASI KODE INI. JIKA KALIAN MENGALAMI KESULITAN PADA SUBMISSION BACKEND API DICODING BISA MEMAKAI INI UNTUK MEDIA PEMBELAJARAN.
+
+
+<p align="center">
+  <a href="#how-to-use">How To Use</a> •
+  <a href="#how-to-use">Contribute</a> •
+</p>
+
+
+## How To Use
+
+Untuk cara installasi ada dibawah
+
+```bash
+# Clone repository ini di git
+$ git clone https://github.com/R1TGAMING/Bookshelf-API-HAPI.git
+
+# Go into the repository
+$ cd Bookshelf-API-HAPI
+
+# Install dependencies
+$ npm install
+
+# Run the app
+$ npm start
+```
+
+> **Note**
+> Kalian harus mengetahui resiko apa yang terjadi jika menggunakan project ini
+
+## Contribute
+
+Kalian bisa contribute dengan project ini jika ada masalah, bug, atau error tetapi sebelum itu tolong kirimkan issues nya terlebih dahulu sebelum berkontribusi dengan project ini.
