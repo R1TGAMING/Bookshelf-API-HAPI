@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="#how-to-use">How To Use</a> •
-  <a href="#how-to-use">Contribute</a> •
+  <a href="#how-to-use">Contribute</a>
 </p>
 
 
